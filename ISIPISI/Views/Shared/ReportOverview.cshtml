@@ -1,0 +1,26 @@
+﻿@model ReportViewModel
+
+<script type="text/javascript">
+
+	function redirect(reqid) {
+		var id = reqid;
+		window.location.href ="@Url.Action("Specific", "Report")" + "/" + id;
+	}
+</script>
+
+<div class="thumbnail w-100" onclick="redirect(@Model.rep.EventReportId)" style="background-color:cornsilk;fill-opacity:20">
+    <div class="caption">
+        <h2><strong>Raport #:</strong> @Model.rep.EventReportId</h2>
+        <h3><strong>Zona :</strong> @Model.area.AreaName</h3>
+
+        <h5><strong>Reported by:</strong>@Model.rep.reporterUsername </h5>
+        <h5><strong>Reported on:</strong>@Model.rep.ReportDate</h5>
+        @if(Model.rep.Approved)
+        {
+            <h6>Approved</h6>
+        } else
+        {
+            <h5>Pending</h5>
+        }
+    </div>
+</div>

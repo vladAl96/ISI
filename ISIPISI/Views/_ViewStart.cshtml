@@ -1,0 +1,20 @@
+﻿@{ 
+    if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Admin"))
+        {
+            Layout = "_Layout_Admin";
+        } else if(User.IsInRole("Volunteer"))
+        {
+            Layout = "_Layout_Volunteer";
+        } else
+        {
+            Layout = "_Layout_Guest";
+        }
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+

@@ -1,0 +1,33 @@
+﻿@model MembersViewModel
+
+<div class="masthead">
+    <div class="container d-flex h-100 w-50 align-items-center text-center">
+        <div class="list-group list-group-flush pre-scrollable w-100" style="overflow:auto">
+            @foreach (var user in Model.users)
+            {
+                var disP = "";
+                var disD = "";
+                if (user.currentRole.Equals("Admin"))
+                {
+                    disP = "disabled";
+                } else if(user.currentRole.Equals("Guest"))
+                {
+                    disD = "disabled";
+                }
+
+                <div class="list-group-item justify-content-between align-items-center" style="width: 100%;
+                                                               color: azure;
+                                                               text-align: inherit;
+                                                               font-family: sans-serif;
+                                                               font-size: x-large;background-color:dimgrey">
+                    @user.username ~ @user.currentRole
+
+                    <div>
+                        <a href="/Admin/Promote/@user.username" class="btn btn-primary @disP">Promote</a>
+                        <a href="/Admin/Demote/@user.username" class="btn btn-primary @disD">Demote</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

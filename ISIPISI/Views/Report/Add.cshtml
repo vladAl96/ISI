@@ -1,0 +1,44 @@
+﻿@model ReportFormModel
+<div class="masthead">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <form asp-controller="Report" asp-action="Add" method="post" class="form-horizontal" role="form" style="margin-top:200px">
+                <h4>Completati detaliile raportului</h4>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="areaName" class="control-label" style="color:antiquewhite"></label>
+                    <select asp-for="areaName" class="form-control">
+                        @foreach (var area in Model._areas)
+                        {
+                            <option>@area.AreaName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="areaName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="reportDescription" class="control-label" style="color:antiquewhite"></label>
+                    <textarea asp-for="reportDescription" class="form-control" style="height:150px"> </textarea>
+                    <span asp-validation-for="reportDescription" class="text-danger"></span>
+                </div>
+
+                <h4 class="text-white-50">Specificati modificarile parametrilor observate (cu semnul - in fata, daca parametri au scazut)</h4>
+                <div class="form-group">
+                    <label asp-for="PHChange" class="control-label" style="color:antiquewhite"></label>
+                    <input asp-for="PHChange" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="PollutionPercentageChange" class="control-label" style="color:antiquewhite"></label>
+                    <input asp-for="PollutionPercentageChange" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="NocSubsQTYChange" class="control-label" style="color:antiquewhite"></label>
+                    <input asp-for="NocSubsQTYChange" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Trimite" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

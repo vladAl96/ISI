@@ -1,0 +1,28 @@
+﻿@model ReportViewModel
+
+<div class="masthead">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <h2><strong>Raport #:</strong> @Model.rep.EventReportId</h2>
+            <h3><strong>Zona :</strong> @Model.area.AreaName</h3>
+
+            <h3><strong>Description:</strong></h3>
+            <h4 style="color:rgba(255, 255, 255, 0.5)">
+
+                @Model.rep.reportDescription
+            </h4>
+
+            <h5><strong>Reported by:</strong>@Model.rep.reporterUsername </h5>
+            <h5><strong>Reported on:</strong>@Model.rep.ReportDate</h5>
+            @if (Model.rep.Approved)
+            {
+                <h6 class="text-white-50">Approved</h6>
+            }
+            else
+            {
+                <a href="/Admin/Approve/@Model.rep.EventReportId" class="btn btn-primary">Approve</a>
+            }
+            <a href="/Report/List" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</div>
