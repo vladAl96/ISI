@@ -19,14 +19,56 @@ namespace ISIPISI.Models
                 context.Areas.AddRange(
                     new Area
                     {
-                        AreaName = "DummyArea1",
+                        AreaName = "ARAD-PAULIS",
                         PH = 0,
                         PollutionPercentage = 0,
                         NocSubsQTTY = 0                  
                     },
                     new Area
                     {
-                        AreaName = "DummyArea2",
+                        AreaName = "LIPOVA",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "USUSAU",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "LALASINT",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "BATA-BIRCHIS",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "BURJOC",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "DOBRA-ILIA",
+                        PH = 0,
+                        PollutionPercentage = 0,
+                        NocSubsQTTY = 0
+                    },
+                    new Area
+                    {
+                        AreaName = "BRASNICA-DEVA",
                         PH = 0,
                         PollutionPercentage = 0,
                         NocSubsQTTY = 0

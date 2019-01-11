@@ -1,140 +1,144 @@
-﻿
+﻿<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Update Feature Attributes - 4.10</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
-    <title>Create web map from id</title>
 
-    <link rel="stylesheet" href="https://js.arcgis.com/3.27/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" href="https://js.arcgis.com/3.27/esri/css/esri.css">
 
-    <script src="https://js.arcgis.com/3.27/" data-dojo-config="async:true"></script>
-    <script>
-        require([
-            "dojo/parser",
-            "dojo/ready",
-            "dijit/layout/BorderContainer",
-            "dijit/layout/ContentPane",
-            "dojo/dom",
-            "esri/map",
-            "esri/urlUtils",
-            "esri/arcgis/utils",
-            "esri/dijit/Legend",
-            "esri/dijit/Scalebar",
-            "dojo/domReady!"
-        ], function (
-            parser,
-            ready,
-            BorderContainer,
-            ContentPane,
-            dom,
-            Map,
-            urlUtils,
-            arcgisUtils,
-            Legend,
-            Scalebar
-        ) {
-                ready(function () {
+<style>
+    html,
+    #viewDiv {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-                    parser.parse();
+    #info {
+        padding: 14px;
+        border-radius: 5px;
+    }
 
-                    //if accessing webmap from a portal outside of ArcGIS Online, uncomment and replace path with portal URL
-                    //arcgisUtils.arcgisUrl = "https://pathto/portal/sharing/content/items";
-                    arcgisUtils.createMap("4abe6a830b8f466dacf8abfde567a781", "map").then(function (response) {
-                        //update the app
-                        dom.byId("title").innerHTML = response.itemInfo.item.title;
-                        dom.byId("subtitle").innerHTML = response.itemInfo.item.snippet;
+    #update {
+        padding: 6px;
+    }
 
-                        var map = response.map;
+    #form {
+        background: #fff;
+    }
 
-                        //add the scalebar
-                        var scalebar = new Scalebar({
-                            map: map,
-                            scalebarUnit: "english"
-                        });
+    /* replaces esri-widget--panel */
+    .scroller {
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+</style>
 
-                        //add the legend. Note that we use the utility method getLegendLayers to get
-                        //the layers to display in the legend from the createMap response.
-                        var legendLayers = arcgisUtils.getLegendLayers(response);
-                        var legendDijit = new Legend({
-                            map: map,
-                            layerInfos: legendLayers
-                        }, "legend");
-                        legendDijit.startup();
-                    });
+<script>
+    require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/FeatureForm",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Popup",
+        "esri/PopupTemplate",
+        "esri/widgets/FeatureForm"
+    ], function (
+        Map,
+        MapView,
+        FeatureForm,
+        FeatureLayer) {
 
-                });
+            let highlight, editFeature;
+            const featureLayer = new FeatureLayer({
+                portalItem: {
+                    id: "f1e71570150a4d0b9012a76cab894fad"
+                }
+            });
+            featureLayer.popupTemplate = {
+                title: "{DESC_}",
+                content: [{
+                    type: "fields",
+                    fieldInfos: [{
+                        fieldName: "SEG_ID",
+                        label: "Segment ID"
+                    }, {
+                        fieldName: "DESC_",
+                        label: "Segment Zone Name"
+                    }, {
+                        fieldName: "PH"
+                    }, {
+                        fieldName: "CantitateSubstanteNocive",
+                        label: "Substante Nocive (mg/L)"
+                    }, {
+                        fieldName: "ProcentPoluare",
+                        label: "Procent Poluare (%)"
+                    }]
+                }]
+            };
 
+            const map = new Map({
+                basemap: "topo",
+                layers: [featureLayer]
             });
 
-    </script>
-    <style>
-        html,
-        body {
-            height: 100%;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-        }
+            let view = new MapView({
+                map: map,
+                container: "viewDiv",
+                center: [22.5, 46],
+                zoom: 8
+            });
+            form = new FeatureForm({
+                container: "form",
+                groupDisplay: "sequential",
+                layer: featureLayer,
+                // Autocastable to FieldGroupConfig
+                // Inspector group
+                fieldConfig: [{
+                    label: "Inspector information",
+                    description: "Field inspector information",
+                    // individual field configurations within the group
+                    fieldConfig: [{
+                        name: "SEG_ID",
+                        label: "Segment ID"
+                    }, {
+                        name: "DESC_",
+                        label: "Segment Zone Name"
+                    }, {
+                        name: "PH"
+                    }, {
+                        name: "CantitateSubstanteNocive",
+                        label: "Substante Nocive"
+                    }, {
+                        name: "ProcentPoluare",
+                        label: "Procent Poluare"
+                    }]
+                }]
+            });
 
-        body {
-            font-family: "Helvetica";
-        }
 
-        #header {
-            background-color: #E8E8E8;
-            height: 65px;
-            margin: 5px 5px;
-        }
+            view.ui.add("info", {
+                position: "top-left",
+                index: 1
+            });
 
-        #mainWindow {
-            width: 100%;
-            height: 100%;
-        }
+        });
+</script>
 
-        #title {
-            padding-top: 2px;
-            padding-left: 10px;
-            font-size: 18pt;
-            font-weight: 700;
-        }
+<div class="masthead" style="height:1000px">
 
-        #subtitle {
-            font-size: small;
-            padding-left: 40px;
-        }
+    <div class="claro container" style="padding-top:220px;width:1000px;height:750px">
 
-        #rightPane {
-            background-color: #E8E8E8;
-            margin: 5px;
-            width: 20%;
-        }
+        <h2 class="text-white-50 text-uppercase">Harta nivelului de poluare a Muresului</h2>
 
-        #map {
-            margin: 5px;
-            padding: 0;
-        }
-    </style>
-
-    <div class="masthead">
-
-        <div class="claro container" style="padding-top:220px">
-            <h2 class="text-white-50 text-uppercase">Harta nivelului de poluare a Muresului</h2>
-            <div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'">
-                @*<div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
-                    <div id="title"></div>
-                    <div id="subtitle"></div>
-                </div>*@
-                <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div>
-                <div id="rightPane" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right'">
-                    <div id="legend"></div>
-                </div>
-            </div>
+        <div id="viewDiv"></div>
+        <div id="info" class="esri-widget">
         </div>
-
-        @if (User.IsInRole("Volunteer"))
-        {
-            <div>
-                <a href="/Report/Add" class="btn btn-primary" style="margin-left:650px">Report an event</a>
-            </div>
-        }
     </div>
+
+    @if (User.IsInRole("Volunteer"))
+    {
+        <div style=" padding-top:50px">
+            <a href="/Report/Add" class="btn btn-primary" style="margin-left:650px">Report an event</a>
+        </div>
+    }
+</div>

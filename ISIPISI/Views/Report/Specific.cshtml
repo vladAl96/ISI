@@ -10,7 +10,11 @@
             <h4 style="color:rgba(255, 255, 255, 0.5)">
 
                 @Model.rep.reportDescription
+
             </h4>
+            <h4><strong>Schimbare PH:</strong> @Model.rep.PHChange</h4>
+            <h4><strong>Schimbare cantitate substante nocive:</strong> @Model.rep.NocSubsQTYChange</h4>
+            <h4><strong>Schimbare procent poluare:</strong> @Model.rep.PollutionPercentageChange</h4>
 
             <h5><strong>Reported by:</strong>@Model.rep.reporterUsername </h5>
             <h5><strong>Reported on:</strong>@Model.rep.ReportDate</h5>
@@ -20,7 +24,14 @@
             }
             else
             {
-                <a href="/Admin/Approve/@Model.rep.EventReportId" class="btn btn-primary">Approve</a>
+                if (User.IsInRole("Admin"))
+                {
+                    <a href="/Admin/Approve/@Model.rep.EventReportId" class="btn btn-primary">Approve</a>
+                }
+                else
+                {
+                    <h6 class="text-white-50">Pending</h6>
+                }
             }
             <a href="/Report/List" class="btn btn-primary">Go Back</a>
         </div>

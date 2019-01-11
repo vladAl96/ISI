@@ -90,11 +90,10 @@ namespace ISIPISI.Controllers
         [Route("/Admin/Approve/{reportId}")]
         public IActionResult Approve(int reportId)
         {
-            //TODO: change data seed for the map
             _context.Reports.FirstOrDefault(r => r.EventReportId == reportId).Approved = true;
             _context.SaveChanges();
 
-            return RedirectToAction("List", "Report");
+            return RedirectToAction("Modify", "Map");
         }
     }
 }

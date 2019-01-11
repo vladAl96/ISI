@@ -1,4 +1,5 @@
-﻿using ISIPISI.ViewModels;
+﻿using ISIPISI.Models;
+using ISIPISI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,13 +13,18 @@ namespace ISIPISI.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly IReportsRepository _reportRepo;
+        private readonly IAreaRepository _areaRepo;
 
         public AccountController(SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager,
+            IReportsRepository reportRepo,
+            IAreaRepository areaRepo)
         {
             _signInManager = signInManager;
             _userManager = userManager;
-
+            _reportRepo = reportRepo;
+            _areaRepo = areaRepo;
         }
 
         public IActionResult Login(string returnUrl)
@@ -95,6 +101,16 @@ namespace ISIPISI.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Activity()
+        {
+            var rlvm = new ReportListViewModel();
+            foreach (var report in _reportRepo.Reports.Where(r => r.reporterUsername.Equals(User.Identity.Name)))
+            {     
+                rlvm.ReportsVM.Add(new ReportViewModel(report, _areaRepo.getAreaById(report.areaId)));
+            }
+            return View(rlvm);
         }
     }
 }

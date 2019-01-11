@@ -5,11 +5,23 @@
         <div class="mx-auto text-center">
             <h2 class="text-white-50"> All reports: </h2>
             <div class="list-group list-group-flush pre-scrollable w-100" style="width:700px">
-                @foreach(var rep in @Model.ReportsVM)
+                @foreach (var rep in @Model.ReportsVM)
                 {
-                    <div class="list-group-item-action" style="width:700px">
-                        @Html.Partial("ReportOverview", rep)
-                    </div>
+                    if (!rep.rep.Approved)
+                    {
+                        <div class="list-group-item-action" style="width:700px">
+                            @Html.Partial("ReportOverview", rep)
+                        </div>
+                    }
+                }
+                @foreach (var rep in @Model.ReportsVM)
+                {
+                    if (rep.rep.Approved)
+                    {
+                        <div class="list-group-item-action" style="width:700px">
+                            @Html.Partial("ReportOverview", rep)
+                        </div>
+                    }
                 }
             </div>           
         </div>

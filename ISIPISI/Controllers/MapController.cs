@@ -12,5 +12,10 @@ namespace ISIPISI.Controllers
         {
             return View();
         }
+
+        public IActionResult Modify()
+        {
+            return View();
+        }
     }
 }
